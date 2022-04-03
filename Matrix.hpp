@@ -23,6 +23,8 @@ namespace zich{
         Matrix operator*(const Matrix &mat);
         Matrix operator*(const double scalar);
 
+        Matrix Matrix:: operator=(Matrix &mat);
+
         Matrix& operator++();
         Matrix operator++(const int num);
         Matrix& operator--();
@@ -46,7 +48,7 @@ namespace zich{
         friend istream& operator>> (Matrix& mat, istream &os);
                 
         friend Matrix operator-(Matrix &mat);
-        friend Matrix operator*( Matrix &mat, const double scalar);
+        // friend Matrix operator*( Matrix &mat, const double scalar);
 
     };
 

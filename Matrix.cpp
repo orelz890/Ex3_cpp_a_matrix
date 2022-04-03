@@ -18,6 +18,8 @@ Matrix Matrix:: operator*(const Matrix &mat){
 Matrix Matrix:: operator*(const double scalar){
 
 }
+Matrix Matrix:: operator=(Matrix &mat){
+}
 
 Matrix& Matrix:: operator++(){
 

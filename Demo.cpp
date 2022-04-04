@@ -22,20 +22,26 @@ int main() {
   std::vector<double> identity = {1, 0, 0, 0, 1, 0, 0, 0, 1};
   std::vector<double> arr = {3, 0, 0, 0, 3, 0, 0, 0, 3};
   Matrix a{identity, 3, 3};  // constructor taking a vector and a matrix size
+  cout << "IM here1\n";
+  fflush(stdout);
   cout << a << endl;
   /* prints [1 0 0]
             [0 1 0]
             [0 0 1]*/
-
+  cout << "IM here1\n";
+  fflush(stdout);
   cout << (-a) << endl;
   /* prints [-1 0 0]
             [0 -1 0]
             [0 0 -1]*/
+  cout << "IM here1\n";
+  fflush(stdout);
   cout << (3*a) << endl;
-  /* prints [-3 0 0]
-            [0 -3 0]
-            [0 0 -3]*/
-
+  /* prints [3 0 0]
+            [0 3 0]
+            [0 0 3]*/
+  cout << "IM here1\n";
+  fflush(stdout);
   Matrix b{arr, 3, 3};
   a *= -3;
   cout << (a+b) << endl;  // prints the 0 matrix

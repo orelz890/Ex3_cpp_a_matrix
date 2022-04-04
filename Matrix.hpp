@@ -3,32 +3,35 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-using namespace std;
 
 namespace zich{
+
     class Matrix{
-    private:
         int rows;
         int columns;
-        vector<double> matrix;
+
     public:
+        std::vector<double> matrix;
 
         // Constroctor - init matrix
-        Matrix(const vector<double> mat_vector, const int row, const int col){
+        Matrix(std::vector<double> mat_vector, const int row, const int col){
             if (mat_vector.size() != (row*col)){
-                throw runtime_error("You didnt fill the entire matrix!");
+                throw std::runtime_error("You didnt fill the entire matrix!");
             }
             rows = row;
             columns = col;
             matrix = mat_vector;
         }
+        // Additional func 
+        // double sum_all_vals(Matrix &mat);
 
         // Value changing operators:
-        Matrix operator+(const Matrix &mat);
-        Matrix operator-(const Matrix &mat);
+        Matrix operator+(const Matrix &mat) const;
+        Matrix operator-(const Matrix &mat) const;
+        Matrix operator-() const;
 
-        Matrix operator*(const Matrix &mat);
-        Matrix operator*(const double scalar);
+        Matrix operator*(const Matrix &mat) const;
+        Matrix operator*(const double scalar) const;
 
         Matrix& operator++();
         Matrix operator++(const int num);
@@ -41,19 +44,17 @@ namespace zich{
         Matrix& operator*=(const double scalar);
 
         // Compering operators
-        bool operator>(Matrix &mat);
-        bool operator>=(Matrix &mat);
-        bool operator<(Matrix &mat);
-        bool operator<=(Matrix &mat);
-        bool operator==(Matrix &mat);
-        bool operator!=(Matrix &mat);
+        bool operator>(const Matrix &mat) const;
+        bool operator>=(const Matrix &mat) const;
+        bool operator<(const Matrix &mat) const;
+        bool operator<=(const Matrix &mat) const;
+        bool operator==(const Matrix &mat) const;
+        bool operator!=(const Matrix &mat) const;
 
-        // Input/output
-        friend ostream& operator<<(const Matrix& mat, ostream& output);
-        friend istream& operator>> (Matrix& mat, istream &os);
-                
-        friend Matrix operator-(Matrix &mat);
-        friend Matrix operator*(const double scalar, Matrix &mat);
+        // // Input/output
+        friend std::ostream& operator<<(std::ostream& os , const Matrix& mat);
+        friend std::istream& operator>> (std::istream &is, Matrix& mat );
+        friend Matrix operator*(const double scalar, const Matrix &mat);
 
     };
 

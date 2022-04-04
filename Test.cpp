@@ -57,7 +57,7 @@ TEST_CASE("Good tests"){
     temp += temp;
     CHECK(temp == mat2 * 2);
 
-    temp -= temp;
+    temp -= mat2;
     CHECK(temp == mat2);
 
 /*
@@ -70,7 +70,7 @@ TEST_CASE("Good tests"){
         Matrix temp2 = mat * (double)i;
         Matrix temp3 = mat + temp2;
         mat += temp2;
-        CHECK(temp == mat);
+        CHECK(temp3 == mat);
     }
 
 
@@ -79,7 +79,7 @@ TEST_CASE("Good tests"){
         Matrix temp2 = mat * (double)i;
         Matrix temp3 = mat - temp2;
         mat -= temp2;
-        CHECK(temp == mat);
+        CHECK(temp3 == mat);
     }
     
     // Checking that * and *= returns the same matrix
@@ -93,7 +93,8 @@ TEST_CASE("Good tests"){
         CHECK(temp == mat);
     }
 
-    CHECK_FALSE((mat * 2) == mat);
+    // Mat should be 0 matrix
+    CHECK((mat * 2) == mat);
 
 /*
     ==========================
@@ -134,7 +135,7 @@ TEST_CASE("Good tests"){
     Input/Output operations
    =========================
 */
-
+    // Output:
     Matrix m9{twoX2 , 2, 2};
     std::stringstream os;
     os << m9 << endl;
@@ -155,6 +156,8 @@ TEST_CASE("Good tests"){
     os3 << m12 << endl;
     CHECK(os3.str() == "[-1 -1 -1]\n[-1 -1 -1]\n[-1 -1 -1]");
 
+    // Input:
+    
 }
 
 

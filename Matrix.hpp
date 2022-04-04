@@ -24,8 +24,6 @@ namespace zich{
             matrix = mat_vector;
             mat_size = row * col;
         }
-        // Additional func 
-        // double sum_all_vals(Matrix &mat);
 
         // Value changing operators:
         Matrix operator+(const Matrix &mat) const;

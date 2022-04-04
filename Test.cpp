@@ -43,15 +43,14 @@ TEST_CASE("Good tests"){
         CHECK(++mat2 == mat*2);
         // Checking that the position of the operator matters
         CHECK(mat2++ == (mat+mat));
-        CHECK(mat2-- == (mat+mat));
+        CHECK(mat2-- != (mat+mat));
         CHECK(++mat3 == mat * i);
     }
 
     Matrix m = -mat;
     Matrix m2{mat_data_neg, 3, 3};
-    CHECK(m2 == m);      
+    CHECK(m2 == m);
 
-    
     Matrix temp = mat * 2;
     CHECK(temp == mat2);
 
@@ -82,24 +81,18 @@ TEST_CASE("Good tests"){
         mat -= temp2;
         CHECK(temp == mat);
     }
-
-
-    // Checking that * and *= returns the same matrix
-    for (int i = -10; i < 10; i++){
-        double scalar = (double)i;
-        Matrix temp = mat * scalar;   
-        mat *= temp;
-        CHECK(temp == (mat * temp));
-    }
-
-
+    
     // Checking that * and *= returns the same matrix
     for (int i = -10; i < 10; i++){
         double scalar = (double)i;
         Matrix temp = mat * scalar;   
         mat *= scalar;
         CHECK(temp == mat);
+        temp = mat * mat;
+        mat *= mat;
+        CHECK(temp == mat);
     }
+
     CHECK_FALSE((mat * 2) == mat);
 
 /*
@@ -114,7 +107,7 @@ TEST_CASE("Good tests"){
     CHECK(mat6 == mat8);
     CHECK(mat6 <= mat8);
     CHECK(mat6 >= mat8);
-    CHECK(mat6 < mat2);
+    CHECK(mat6 < mat7);
     CHECK(mat7 > mat6);
     CHECK(mat6 != mat7);
 
@@ -142,6 +135,25 @@ TEST_CASE("Good tests"){
    =========================
 */
 
+    Matrix m9{twoX2 , 2, 2};
+    std::stringstream os;
+    os << m9 << endl;
+    CHECK(os.str() == "[3 3]\n[2 2]");
+
+    Matrix m10{identity , 3, 3};
+    std::stringstream os1;
+    os1 << m10 << endl;
+    CHECK(os1.str() == "[1 0 0]\n[0 1 0]\n[0 0 1]");
+
+    Matrix m11{fourX3 , 4, 3};
+    std::stringstream os2;
+    os2 << m11 << endl;
+    CHECK(os2.str() == "[3 2 1]\n[3 2 1]\n[3 2 1]\n[3 2 1]");
+
+    Matrix m12{mat_data_neg , 3, 3};
+    std::stringstream os3;
+    os3 << m12 << endl;
+    CHECK(os3.str() == "[-1 -1 -1]\n[-1 -1 -1]\n[-1 -1 -1]");
 
 }
 
@@ -193,6 +205,7 @@ TEST_CASE("Bad input") {
 
 TEST_CASE("Illigal operations"){
 
+
 /*
    =======================
     Diffrent matrix size
@@ -204,24 +217,47 @@ TEST_CASE("Illigal operations"){
         Matrix m2on2 = (mat2on2 * i);
         Matrix m3on3 = (mat3on3 * i);
         Matrix m4on4 = (mat4on4 * i);
+/* 
+   ==================
+   Illigal compering
+   ==================
+*/
+        bool t;
+        // Mix even & odd compering
+        CHECK_THROWS(t = (m2on2 < mat3on3));
+        CHECK_THROWS(t = (m3on3 <= mat4on3));
+        CHECK_THROWS(t =(m2on2 != mat3on3));
+        CHECK_THROWS(t = (m3on3 > mat2on2));
+        CHECK_THROWS(t = (m4on3 >= mat3on3));
+        CHECK_THROWS(t = (m2on2 == mat3on3));
 
-        // Mix even & odd
-        CHECK_THROWS(m4on3 * m4on4);
-        CHECK_THROWS(CHECK(m2on2 < mat3on3));
-        CHECK_THROWS(CHECK(m3on3 <= mat4on3));
-        CHECK_THROWS(CHECK(m2on2 != mat3on3));
-        CHECK_THROWS(CHECK(m3on3 > mat2on2));
-        CHECK_THROWS(CHECK(m4on3 >= mat3on3));
-        CHECK_THROWS(CHECK(m2on2 == mat3on3));
+        // Even & even compering
+        CHECK_THROWS(t = (m4on4 >= mat2on2));
+        CHECK_THROWS(t = (m2on2 < mat4on4));
+        CHECK_THROWS(t = (m2on2 > mat4on4));
+        CHECK_THROWS(t = (m4on4 <= mat2on2));
+        CHECK_THROWS(t = (m2on2 != mat4on4));
+        CHECK_THROWS(t = (m4on4 == mat2on2));
 
-        // Even & even
-        CHECK_THROWS(m2on2 * mat4on4);
-        CHECK_THROWS(CHECK(m4on4 >= mat2on2));
-        CHECK_THROWS(CHECK(m2on2 < mat4on4));
-        CHECK_THROWS(CHECK(m2on2 > mat4on4));
-        CHECK_THROWS(CHECK(m4on4 <= mat2on2));
-        CHECK_THROWS(CHECK(m2on2 != mat4on4));
-        CHECK_THROWS(CHECK(m4on4 == mat2on2));
+/*
+   =====================
+    Illigal aritmetics:
+   =====================
+*/  
+        CHECK_THROWS(m2on2 + mat3on3);
+        CHECK_THROWS(m3on3 - mat4on3);
+        CHECK_THROWS(m2on2 * mat3on3);
+
+        CHECK_THROWS(m4on4 += mat2on2);
+        CHECK_THROWS(m2on2 -= mat4on4);
+        CHECK_THROWS(m2on2 *= mat4on4);
+
+        CHECK_THROWS(m3on3 + mat2on2);
+        CHECK_THROWS(m4on3 * mat3on3);
+        CHECK_THROWS(m2on2 - mat3on3);
         
+        CHECK_THROWS(m4on4 -= mat2on2);
+        CHECK_THROWS(m2on2 += mat4on4);
+        CHECK_THROWS(m4on4 *= mat2on2);                
     }        
 }

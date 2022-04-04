@@ -11,7 +11,6 @@
 
 // int main(){
 //     zich::Matrix m{mat_data, 3, 3};
-//     cout << __DBL_MAX__ + 1000;
-
+//     cout << m;
 //     return 0;
 // }

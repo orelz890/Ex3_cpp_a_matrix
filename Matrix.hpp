@@ -9,6 +9,7 @@ namespace zich{
     class Matrix{
         int rows;
         int columns;
+        int mat_size;
 
     public:
         std::vector<double> matrix;
@@ -21,6 +22,7 @@ namespace zich{
             rows = row;
             columns = col;
             matrix = mat_vector;
+            mat_size = row * col;
         }
         // Additional func 
         // double sum_all_vals(Matrix &mat);
@@ -57,5 +59,6 @@ namespace zich{
         friend Matrix operator*(const double scalar, const Matrix &mat);
 
     };
+
 
 }

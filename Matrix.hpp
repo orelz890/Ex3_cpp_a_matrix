@@ -8,22 +8,27 @@ using namespace std;
 namespace zich{
     class Matrix{
     private:
-        int row;
-        int col;
-        vector<double> mat_vector;
+        int rows;
+        int columns;
+        vector<double> matrix;
     public:
 
         // Constroctor - init matrix
-        Matrix(const vector<double> mat_vector, const int row, const int col);
+        Matrix(const vector<double> mat_vector, const int row, const int col){
+            if (mat_vector.size() != (row*col)){
+                throw runtime_error("You didnt fill the entire matrix!");
+            }
+            rows = row;
+            columns = col;
+            matrix = mat_vector;
+        }
 
-        // Value change operators:
+        // Value changing operators:
         Matrix operator+(const Matrix &mat);
         Matrix operator-(const Matrix &mat);
 
         Matrix operator*(const Matrix &mat);
         Matrix operator*(const double scalar);
-
-        Matrix Matrix:: operator=(Matrix &mat);
 
         Matrix& operator++();
         Matrix operator++(const int num);
@@ -48,7 +53,7 @@ namespace zich{
         friend istream& operator>> (Matrix& mat, istream &os);
                 
         friend Matrix operator-(Matrix &mat);
-        // friend Matrix operator*( Matrix &mat, const double scalar);
+        friend Matrix operator*(const double scalar, Matrix &mat);
 
     };
 

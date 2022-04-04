@@ -13,9 +13,11 @@ std::vector<double> arr4 = {3, 1, 1, 3, 4, 0, 0, 1, 3, 2, 2, 0, 0, 0, 0, 0};
 std::vector<double> mat_data = {1, 1, 1, 1, 1, 1, 1, 1, 1};
 std::vector<double> mat_data2 = {2, 2, 2, 2, 2, 2, 2, 2, 2};
 std::vector<double> fourX3 = {3, 2, 1, 3, 2, 1, 3, 2, 1, 3, 2, 1};
+std::vector<double> twoX2 = {3, 3, 2, 2};
 
-const Matrix matId{identity, 3, 3};
-const Matrix matNegId{negIdentity, 3, 3};
+Matrix matId{identity, 3, 3};
+Matrix matNegId{negIdentity, 3, 3};
+Matrix mat2on2{twoX2, 2, 2};
 Matrix mat3on3{arr3, 3, 3};
 Matrix mat4on4{arr4, 4, 4};
 Matrix mat4on3{fourX3, 4, 3};
@@ -117,20 +119,19 @@ TEST_CASE("Good tests"){
         }
     }
 
-    SUBCASE("Input/Output operations"){
-
-    }
+    // SUBCASE("Input/Output operations"){
+        
+    // }
 
 }
 
 
 TEST_CASE("Bad input") {
+
     Matrix mat{mat_data, 3, 3};
     Matrix mat2{mat_data2, 3, 3};
     Matrix mat3{mat_data, 3, 3};
     std::vector<double> empty_data = {};
-
-
 
     SUBCASE("Negetive input"){
         
@@ -138,14 +139,17 @@ TEST_CASE("Bad input") {
             CHECK_THROWS((Matrix{mat_data, i, 3}));
             CHECK_THROWS((Matrix{mat_data, 3, i}));
             CHECK_THROWS((Matrix{mat_data, i, i}));
+            CHECK_THROWS((Matrix{mat_data, i*i, i}));
+            CHECK_THROWS((Matrix{mat_data, i, i*i}));
         }
     }
 
     SUBCASE("Illigal empty case"){
-        CHECK_THROWS((Matrix{mat_data, 0, 3}));
-        CHECK_THROWS((Matrix{mat_data, 3, 0}));  
-        CHECK_THROWS((Matrix{mat_data, 0, 0}));
-        CHECK_THROWS((Matrix{empty_data, 3, 3}));
+        for (int i = 0; i < 50; i++){
+            CHECK_THROWS((Matrix{mat_data, 0, i}));
+            CHECK_THROWS((Matrix{mat_data, i, 0}));  
+            CHECK_THROWS((Matrix{empty_data, i, i}));
+        }
     }
 
     SUBCASE("Matrix size not equels Row*Col == size"){
@@ -154,16 +158,40 @@ TEST_CASE("Bad input") {
             CHECK_THROWS((Matrix{fourX3, i, i + 2}));
             CHECK_THROWS((Matrix{fourX3, i, i + 3}));
         }
-        
     }
 
 }
 
-TEST_CASE("Illigal operations"){
+// TEST_CASE("Illigal operations"){
 
-    
+//     SUBCASE("Diffrent matrix size"){
+//         for (int i = 0; i < 50; i++){
+//             Matrix m4on3 = (mat4on3 * i);
+//             Matrix m2on2 = (mat2on2 * i);
+//             Matrix m3on3 = (mat3on3 * i);
+//             Matrix m4on4 = (mat4on4 * i);
+
+//             // Mix even & odd
+//             CHECK_THROWS(m4on3 * m4on4);
+//             CHECK_THROWS((m2on2 < mat3on3) == false);
+//             CHECK_THROWS((m3on3 <= mat4on3) == false);
+//             CHECK_THROWS((m2on2 != mat3on3) == false);
+//             CHECK_THROWS((m3on3 > mat2on2) == false);
+//             CHECK_THROWS((m4on3 >= mat3on3) == false);
+//             CHECK_THROWS((m2on2 == mat3on3) == false);
+
+//             // Even & even
+//             CHECK_THROWS((m4on4 >= mat2on2) == false);
+//             CHECK_THROWS((m2on2 < mat4on4) == false);
+//             CHECK_THROWS((m2on2 > mat4on4) == false);
+//             CHECK_THROWS((m4on4 <= mat2on2) == false);
+//             CHECK_THROWS((m2on2 != mat4on4) == false);
+//             CHECK_THROWS(m2on2 * mat4on4 );
+//             CHECK_THROWS(m4on4 == mat2on2);
+            
+//         }        
+//     }
 
 
 
-
-}
+// }

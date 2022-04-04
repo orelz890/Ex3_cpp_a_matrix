@@ -139,25 +139,49 @@ TEST_CASE("Good tests"){
     Matrix m9{twoX2 , 2, 2};
     std::stringstream os;
     os << m9 << endl;
-    CHECK(os.str() == "[3 3]\n[2 2]");
+    CHECK(os.str() == "[3 3]\n[2 2]\n\n");
 
     Matrix m10{identity , 3, 3};
     std::stringstream os1;
     os1 << m10 << endl;
-    CHECK(os1.str() == "[1 0 0]\n[0 1 0]\n[0 0 1]");
+    CHECK(os1.str() == "[1 0 0]\n[0 1 0]\n[0 0 1]\n\n");
 
     Matrix m11{fourX3 , 4, 3};
     std::stringstream os2;
     os2 << m11 << endl;
-    CHECK(os2.str() == "[3 2 1]\n[3 2 1]\n[3 2 1]\n[3 2 1]");
+    CHECK(os2.str() == "[3 2 1]\n[3 2 1]\n[3 2 1]\n[3 2 1]\n\n");
 
     Matrix m12{mat_data_neg , 3, 3};
     std::stringstream os3;
     os3 << m12 << endl;
-    CHECK(os3.str() == "[-1 -1 -1]\n[-1 -1 -1]\n[-1 -1 -1]");
+    CHECK(os3.str() == "[-1 -1 -1]\n[-1 -1 -1]\n[-1 -1 -1]\n\n");
 
     // Input:
-    
+    Matrix m13{2, 2};
+    std::stringstream is;
+    is << "[3 3], [2, 2]";
+    is >> m13;
+    CHECK(m13 == m9);
+
+    Matrix m14{3, 3};
+    std::stringstream is1;
+    is1 << "[1 0 0], [0 1 0], [0 0 1]";
+    is1 >> m14;
+    CHECK(m14 == m10);
+
+    Matrix m15{4, 3};
+    std::stringstream is2;
+    is2 << "[3 2 1], [3 2 1], [3 2 1], [3 2 1]";
+    is2 >> m15;
+    CHECK(m15 == m11);
+
+    Matrix m16{3, 3};
+    std::stringstream is3;
+    is3 << "[-1 -1 -1], [-1 -1 -1], [-1 -1 -1]";
+    is3 >> m16;
+    CHECK(m16 == m12);
+
+
 }
 
 
@@ -262,5 +286,36 @@ TEST_CASE("Illigal operations"){
         CHECK_THROWS(m4on4 -= mat2on2);
         CHECK_THROWS(m2on2 += mat4on4);
         CHECK_THROWS(m4on4 *= mat2on2);                
-    }        
+    }
+
+/*
+   =========================
+    Input/Output operations
+   =========================
+*/
+
+    // Matrix size < data size
+
+    // Input:
+    Matrix m13{1, 2};
+    std::stringstream is;
+    is << "[3 3], [2, 2]";
+    CHECK_THROWS(is >> m13);
+
+    Matrix m14{3, 2};
+    std::stringstream is1;
+    is1 << "[1 0 0], [0 1 0], [0 0 1]";
+    CHECK_THROWS(is1 >> m14);
+
+    // // Matrix size > data size
+
+    // Matrix m15{4, 4};
+    // std::stringstream is2;
+    // is2 << "[3 2 1], [3 2 1], [3 2 1], [3 2 1]";
+    // CHECK_THROWS(is2 >> m15);
+
+    // Matrix m16{10, 10};
+    // std::stringstream is3;
+    // is3 << "[-1 -1 -1], [-1 -1 -1], [-1 -1 -1]";
+    // CHECK_THROWS(is3 >> m16);
 }

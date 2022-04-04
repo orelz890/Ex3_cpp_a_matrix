@@ -1,8 +1,10 @@
 #include <iostream>
+#include <stdio.h>
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <string.h>
 
 namespace zich{
 
@@ -21,12 +23,23 @@ namespace zich{
             return columns;
         }
         double get_val_at(int i) const{
-            return matrix[(unsigned long)i];
+            return matrix.at((unsigned long)i);
+        }
+
+        // Deffult constructor
+        Matrix(const int row, const int col){
+            if (row <= 0 || col <= 0){
+                throw std::runtime_error("Size don't match rows & cols input!");
+            }
+            rows = row;
+            columns = col;
+            mat_size = row * col;
+            matrix.resize((unsigned long)mat_size);
         }
         // Constroctor - init matrix
         Matrix(std::vector<double> mat_vector, const int row, const int col){
-            if (mat_vector.size() != (row*col)){
-                throw std::runtime_error("Size don't match rows * cols!");
+            if (mat_vector.size() != (row*col) || row <= 0 || col <= 0){
+                throw std::runtime_error("Size don't match rows & cols input!");
             }
             rows = row;
             columns = col;

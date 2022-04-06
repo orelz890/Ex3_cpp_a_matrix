@@ -307,6 +307,16 @@ TEST_CASE("Illigal operations"){
     is1 << "[1 0 0], [0 1 0], [0 0 1]";
     CHECK_THROWS(is1 >> m14);
 
+    Matrix m15{4, 1};
+    std::stringstream is2;
+    is2 << "[3 2 1], [3 2 1], [3 2 1], [3 2 1]";
+    CHECK_THROWS(is2 >> m15);
+
+    Matrix m16{2, 3};
+    std::stringstream is3;
+    is3 << "[-1 -1 -1], [-1 -1 -1], [-1 -1 -1]";
+    CHECK_THROWS(is3 >> m16);
+
     // // Matrix size > data size
 
     // Matrix m15{4, 4};
